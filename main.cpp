@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -141,26 +142,26 @@ int main()
                 else
                 {
                     int miejsce = 0;
+                    int * tmp = NULL;
+                    tmp = new int[n-1];
                     if(n!=1)
                     {
                         cout<<"Podaj miejsce usuwanego elementu: ";
                         cin>>miejsce;
                     }
-                    int* tmp = NULL;
-                    cout<<n;
                     if(p != NULL)
                     {
                         for(int i=0;i<n-1;i++)
                         {
-                            if(i >= miejsce)
+                            if(i < miejsce)
                             {
-                               tmp[i] = p[i+1];
+
+                               tmp[i] = p[i];
                             }
                             else
                             {
-                               tmp[i] = p[i];
+                               tmp[i] = p[i+1];
                             }
-                            cout<<tmp[i]<<endl;
                         }
                     }
                     delete[] p;
@@ -190,10 +191,72 @@ int main()
         case 5:
             {
                 //zapis danych do pliku
+                fstream fout;
+                fout.open("test.txt",ios::out);
+                if(fout.is_open())
+                {
+                    for(int i=0;i<n-1;i++)
+                    {
+                      fout<<p[i]<<", ";
+                    }
+                    fout<<p[n-1]<<".";
+                    fout.close();
+                }
                 break;
             }
         case 6:
             {
+                fstream fin;
+                fin.open("test.txt",ios::in);
+                if(fin.is_open())
+                {
+                    string tekstout;
+                    getline(fin,tekstout);
+                    fin.close();
+                    int liczby[]={0,1,2,3,4,5,6,7,8,9};
+                    cout << tekstout <<endl;
+                    cout << tekstout.length() <<endl;
+                    for(int i=0;i<tekstout.length();i++)
+                    {
+                        for(int j=0;j<10;j++)
+                        {
+                          if(tekstout[i]==liczby[j])
+                          {
+                            cout<<tekstout[i]<<endl;
+                            p[i]=tekstout[i];
+                          }
+                        }
+                    }
+                    /*
+                    int liczby[]={0,1,2,3,4,5,6,7,8,9};
+                    for(int i=0;i<tekstout.length();i++)
+                    {
+                        int x = 0;
+                        for(int j=0;j<10;j++)
+                        {
+                            if(tekstout[i]==liczby[j])
+                            {
+                                for(int k=0;j<10;j++)
+                                {
+                                    if(tekstout[i+1]==liczby[k])
+                                    {
+                                        cout<<tekstout[i]<<tekstout[i+1]<<endl;
+                                        int dwa = tekstout[i]*10+tekstout[i+1];
+                                        p[x]= dwa;
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        cout<<tekstout[i]<<endl;
+                                        p[x]=tekstout[i];
+                                    }
+                                }
+                            }
+                        }
+                        x++;
+                    }
+                    */
+                }
                 //wczytanie danych z pliku
                 break;
             }
