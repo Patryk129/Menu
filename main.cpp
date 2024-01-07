@@ -197,19 +197,38 @@ int main()
                 {
                     for(int i=0;i<n-1;i++)
                     {
-                      fout<<p[i]<<", ";
+                      fout<<p[i]<<" ";
                     }
-                    fout<<p[n-1]<<".";
+                    fout<<p[n-1];//<<".";
                     fout.close();
+                    cout<<"Zapisano pomyslnie!"<<endl;
                 }
                 break;
             }
         case 6:
             {
                 fstream fin;
+                p = NULL;
                 fin.open("test.txt",ios::in);
                 if(fin.is_open())
                 {
+                    int liczba;
+                    cout<<"Podaj ilosc danych wejsciowych: ";
+                    cin>>n;
+                    int * tmp = NULL;
+                    tmp = new int[n];
+                    int i=0;
+                    while(fin >> liczba)
+                    {
+                        cout<<liczba<<endl;
+                        if(i<n)
+                        {
+                            tmp[i] = liczba;
+                            i++;
+                        }
+
+                    }
+                    /*
                     string tekstout;
                     getline(fin,tekstout);
                     fin.close();
@@ -256,6 +275,7 @@ int main()
                         x++;
                     }
                     */
+                     p = tmp;
                 }
                 //wczytanie danych z pliku
                 break;
