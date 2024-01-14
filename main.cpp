@@ -6,7 +6,7 @@ using namespace std;
 int Menu()
 {
     int x;
-    cout<<endl;
+    cout<<"1"<<endl;
     cout<<"1. Dodaj element tablicy"<<endl;
     cout<<"2. Wstaw element tablicy"<<endl;
     cout<<"3. Usun element tablicy"<<endl;
@@ -36,27 +36,6 @@ int main()
         case 1:
             {
                 int * tmp = NULL;
-                tmp = new int[n+1]; //tworzenie nowej tablicy (o jeden wiêkszej ni¿ poprzednia)
-                if(p != NULL) //je¿eli istnieje poprzednia tablica to:
-                {
-                    for(int i=0;i<n;i++)
-                    {//przekopiuj zawartoœæ poprzedniej tablicy do nowej
-                        tmp[i] = p[i];
-                    }
-                    //usuñ poprzedni¹ tablicê
-                    delete[] p;
-
-                }
-                cout<<"Podaj wartosc elementu tablicy: ";
-                cin>>tmp[n];  //wstaw now¹ wartoœæ do tablicy (na koniec)
-                p = tmp; //przekopiuj adres nowej tablicy do wskaŸnika p
-                n++; //zwiêksz iloœæ elementów tablicy o 1
-                break;
-            }
-        case 2:
-            {
-                int miejsce;//miejsce
-                int * tmp = NULL;
                 tmp = new int[n+1];
                 if(p != NULL)
                 {
@@ -67,74 +46,58 @@ int main()
                     delete[] p;
 
                 }
+                cout<<"Podaj wartosc elementu tablicy: ";
+                cin>>tmp[n];
+                p = tmp;
+                delete[] tmp;
+                n++;
+                break;
+            }
+        case 2:
+            {
+                int miejsce = 0;
+                int wartosc = 0;
+                int * tmp = NULL;
+                tmp = new int[n+1];
                 if(n!=0)
                 {
-                    do{
-                        cout<<"Podaj miejsce nowego elementu: ";
-                        cin>>miejsce;
-                    }while(miejsce>n);
+                    ///do{
+                    cout<<"Podaj miejsce nowego elementu: ";
+                    cin>>miejsce;
+                    if(miejsce>n || miejsce<0)
+                    {
+                        cout<<"Podano niepoprawne miejsce"<<endl;
+                        break;
+                    }
                 }
-                if(miejsce<n)
+                     /// }while(miejsce>n || miejsce<0);
+                cout<<"Podaj wartosc elementu tablicy: ";
+                cin>>wartosc;
+                if(p != NULL)
                 {
-                    int* tmp2 = new int[n+1];
                     for(int i=0;i<n+1;i++)
                     {
                         if(i==miejsce)
-                        {
-                            tmp2[i] = 0;
-                            tmp2[i+1]=tmp[i];
-                        }
+                            tmp[i] = wartosc;
                         else if(i<miejsce)
-                            tmp2[i] = tmp[i];
-                        else
-                            tmp2[i+1]=tmp[i];
+                            tmp[i] = p[i];
+                        else if(i>miejsce)
+                            tmp[i] = p[i-1];
                     }
-                    tmp = tmp2;
+                    delete[] p;
                 }
-                cout<<"Podaj wartosc elementu tablicy: ";
-                cin>>tmp[miejsce];
+                else
+                {
+                    tmp[0] = wartosc;
+                }
                 p = tmp;
+                delete[] tmp;
                 n++;
                 break;
             }
         case 3:
-            {//nie dziala jeszcze
-            /*
-                if(n==0)
-                {
-                    cout<<"Tablica jest pusta."<<endl;
-                }
-                else
-                {
-                    int miejsce;
-                    cout<<"Podaj miejsce usuwanego elementu: ";
-                    cin>>miejsce;
-                    int* tmp = NULL;
-                    tmp = new int[n];
-                    if(p != NULL)
-                    {
-                        for(int i=0;i<n;i++)
-                        {
-                            if(i==miejsce)
-                            {
-                                tmp[i] = p[i+1];
-                            }
-                            else if(i<miejsce)
-                                tmp[i] = p[i];
-                            else if(i<n-1)
-                                tmp[i]=0;
-                            else
-                                tmp[i] = p[i+1];
-                        }
-                        delete[] p;
-                    }
-                    p = tmp;
-                    n--;
-                }
-
-                break;
-                */
-                 if(n==0)
+            {
+                if(p == NULL )
                 {
                     cout<<"Tablica jest pusta."<<endl;
                     break;
@@ -144,13 +107,10 @@ int main()
                     int miejsce = 0;
                     int * tmp = NULL;
                     tmp = new int[n-1];
-                    if(n!=1)
+                    if(p != NULL)
                     {
                         cout<<"Podaj miejsce usuwanego elementu: ";
                         cin>>miejsce;
-                    }
-                    if(p != NULL)
-                    {
                         for(int i=0;i<n-1;i++)
                         {
                             if(i < miejsce)
@@ -166,6 +126,7 @@ int main()
                     }
                     delete[] p;
                     p = tmp;
+                    delete[] tmp;
                     n--;
                     break;
                 }
@@ -190,22 +151,28 @@ int main()
             }
         case 5:
             {
-                //zapis danych do pliku
-                fstream fout;
-                fout.open("test.txt",ios::out);
-                if(fout.is_open())
+                if(p != NULL)
                 {
-                    for(int i=0;i<n-1;i++)
+                    fstream fout;
+                    fout.open("test.txt",ios::out);
+                    if(fout.is_open())
                     {
-                      fout<<p[i]<<" ";
+                        for(int i=0;i<n-1;i++)
+                        {
+                          fout<<p[i]<<" ";
+                        }
+                        fout<<p[n-1];//<<".";
+                        fout.close();
+                        cout<<"Zapisano pomyslnie!"<<endl;
                     }
-                    fout<<p[n-1];//<<".";
-                    fout.close();
-                    cout<<"Zapisano pomyslnie!"<<endl;
+                }
+                else
+                {
+                    cout<<"Tablica jest pusta"<<endl;
                 }
                 break;
             }
-        case 6:
+        case 6://dane musza byc oddzielone od siebie spacja
             {
                 fstream fin;
                 p = NULL;
@@ -220,7 +187,7 @@ int main()
                     int i=0;
                     while(fin >> liczba)
                     {
-                        cout<<liczba<<endl;
+                        ///cout<<liczba<<endl;
                         if(i<n)
                         {
                             tmp[i] = liczba;
@@ -228,56 +195,10 @@ int main()
                         }
 
                     }
-                    /*
-                    string tekstout;
-                    getline(fin,tekstout);
-                    fin.close();
-                    int liczby[]={0,1,2,3,4,5,6,7,8,9};
-                    cout << tekstout <<endl;
-                    cout << tekstout.length() <<endl;
-                    for(int i=0;i<tekstout.length();i++)
-                    {
-                        for(int j=0;j<10;j++)
-                        {
-                          if(tekstout[i]==liczby[j])
-                          {
-                            cout<<tekstout[i]<<endl;
-                            p[i]=tekstout[i];
-                          }
-                        }
-                    }
-                    /*
-                    int liczby[]={0,1,2,3,4,5,6,7,8,9};
-                    for(int i=0;i<tekstout.length();i++)
-                    {
-                        int x = 0;
-                        for(int j=0;j<10;j++)
-                        {
-                            if(tekstout[i]==liczby[j])
-                            {
-                                for(int k=0;j<10;j++)
-                                {
-                                    if(tekstout[i+1]==liczby[k])
-                                    {
-                                        cout<<tekstout[i]<<tekstout[i+1]<<endl;
-                                        int dwa = tekstout[i]*10+tekstout[i+1];
-                                        p[x]= dwa;
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        cout<<tekstout[i]<<endl;
-                                        p[x]=tekstout[i];
-                                    }
-                                }
-                            }
-                        }
-                        x++;
-                    }
-                    */
                      p = tmp;
+                     delete[] tmp;
+                     cout<<"Wczytano dane!"<<endl;
                 }
-                //wczytanie danych z pliku
                 break;
             }
         default:
@@ -288,6 +209,5 @@ int main()
 
         }
     }
-
     return 0;
 }
