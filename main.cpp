@@ -78,11 +78,18 @@ int main()
                     for(int i=0;i<n+1;i++)
                     {
                         if(i==miejsce)
+                        {
                             tmp[i] = wartosc;
+                        }
+
                         else if(i<miejsce)
+                        {
                             tmp[i] = p[i];
+                        }
                         else if(i>miejsce)
+                        {
                             tmp[i] = p[i-1];
+                        }
                     }
                     delete[] p;
                 }
@@ -109,7 +116,7 @@ int main()
                     tmp = new int[n-1];
                     if(p != NULL)
                     {
-                        cout<<"Podaj miejsce usuwanego elementu: ";
+                        cout<<"Podaj miejsce usuwanego elementu: ";//pierwsze miejsce w tablicy to 0
                         cin>>miejsce;
                         for(int i=0;i<n-1;i++)
                         {
@@ -172,7 +179,7 @@ int main()
                 }
                 break;
             }
-        case 6://dane musza byc oddzielone od siebie spacja
+        case 6://kolejne dane musza byc oddzielone od siebie spacja
             {
                 fstream fin;
                 p = NULL;
