@@ -6,11 +6,12 @@ using namespace std;
 int Menu()
 {
     int x;
-    cout<<"1"<<endl;
+    cout<<endl;
+    cout << "----------- OPERACJE -----------" <<endl<<endl;
     cout<<"1. Dodaj element tablicy"<<endl;
     cout<<"2. Wstaw element tablicy"<<endl;
     cout<<"3. Usun element tablicy"<<endl;
-    cout<<"4. Wyœwietl elementy tablicy"<<endl;
+    cout<<"4. Wyswietl elementy tablicy"<<endl;
     cout<<"5. Zapisz do pliku"<<endl;
     cout<<"6. Wczytaj z pliku"<<endl;
     cout<<"7. Wyjscie z programu"<<endl;
@@ -31,6 +32,7 @@ int main()
         {
         case 7:
             {
+                cout<<"Do zobaczenia!"<<endl;
                 return 0;
             }
         case 1:
@@ -104,7 +106,7 @@ int main()
             }
         case 3:
             {
-                if(p == NULL )
+                if(n == 0)
                 {
                     cout<<"Tablica jest pusta."<<endl;
                     break;
@@ -116,8 +118,16 @@ int main()
                     tmp = new int[n-1];
                     if(p != NULL)
                     {
-                        cout<<"Podaj miejsce usuwanego elementu: ";//pierwsze miejsce w tablicy to 0
-                        cin>>miejsce;
+                        if(n != 1)
+                        {
+                            cout<<"Podaj miejsce usuwanego elementu: ";//pierwsze miejsce w tablicy to 0
+                            cin>>miejsce;
+                            if(miejsce>n-1 || miejsce<0)
+                            {
+                                cout<<"Podano niepoprawne miejsce"<<endl;
+                                break;
+                            }
+                        }
                         for(int i=0;i<n-1;i++)
                         {
                             if(i < miejsce)
@@ -135,6 +145,7 @@ int main()
                     p = tmp;
                     delete[] tmp;
                     n--;
+                    cout<<"Usunieto!"<<endl;
                     break;
                 }
             }
@@ -152,7 +163,7 @@ int main()
                         cout<<p[i]<<", ";
                     }
                     cout<<p[n-1]<<"."<<endl;;
-                    cout<<"Tablica ma "<<n<<" elementow."<<endl;
+                    cout<<"Tablica sklada sie z "<<n<<" elementow."<<endl;
                 }
                 break;
             }
@@ -164,11 +175,11 @@ int main()
                     fout.open("test.txt",ios::out);
                     if(fout.is_open())
                     {
-                        for(int i=0;i<n-1;i++)
+                        for(int i=0;i<n;i++)
                         {
                           fout<<p[i]<<" ";
                         }
-                        fout<<p[n-1];//<<".";
+                        ///fout<<p[n-1]<<".";
                         fout.close();
                         cout<<"Zapisano pomyslnie!"<<endl;
                     }
