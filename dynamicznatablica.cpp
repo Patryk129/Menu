@@ -120,7 +120,7 @@ int main()
                     {
                         if(n != 1)
                         {
-                            cout<<"Podaj miejsce usuwanego elementu: ";//pierwsze miejsce w tablicy to 0
+                            cout<<"Podaj miejsce usuwanego elementu: ";
                             cin>>miejsce;
                             if(miejsce>n-1 || miejsce<0)
                             {
@@ -179,7 +179,6 @@ int main()
                         {
                           fout<<p[i]<<" ";
                         }
-                        ///fout<<p[n-1]<<".";
                         fout.close();
                         cout<<"Zapisano pomyslnie!"<<endl;
                     }
@@ -224,7 +223,6 @@ int main()
                 cout<<"Nieprawidlowa opcja"<<endl;
                 break;
             }
-
         }
     }
     return 0;
